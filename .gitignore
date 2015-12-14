@@ -1,0 +1,8 @@
+node_modules/
+*.log
+logs/
+.idea
+public/js
+public/css
+public/lib
+coverage
