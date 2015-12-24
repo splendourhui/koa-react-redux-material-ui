@@ -5,6 +5,9 @@ var minifyCSS = require('gulp-minify-css');
 var gutil = require('gulp-util');
 var webpack = require('webpack');
 var config = require('./webpack.config');
+var browserSync = require('browser-sync').create();
+var yargs = require('yargs').argv;
+var config = require('./config');
 
 gulp.task('webpack_client', function (cb) {
   webpack(config, function(err, stats) {
@@ -16,40 +19,43 @@ gulp.task('webpack_client', function (cb) {
 
 gulp.task('stylesheets', function () {
   return gulp.src([
-    './src/*.less',
-    './src/*/*.less',
-    './src/*/*/*.less',
-    './src/*/*/*/*.less',
-    './src/*/*/*/*/*.less'
+    './admin-src/**/*.less'
   ])
     .pipe(less().on('error', gutil.log))
-    .pipe(concatCss("index.css"))
+    .pipe(concatCss('admin.css'))
     .pipe(minifyCSS())
     .pipe(gulp.dest('./public/css'));
 });
 
+gulp.task('server', ['webpack_client', 'stylesheets'], function() {
+  browserSync.init({
+    proxy: `localhost:${config.port}`
+  });
+  gulp.start('watch');
+});
+
+gulp.task('less-watch', ['stylesheets'], function() {
+  browserSync.reload();
+});
+gulp.task('js-watch', ['webpack_client'], function() {
+  browserSync.reload();
+});
+
+gulp.task('watch', function() {
+  gulp.watch([
+    './admin-src/**/*.js',
+    './admin-src/**/*.jsx',
+  ], ['js-watch']);
+  gulp.watch([
+    './admin-src/**/*.less'
+  ], ['less-watch']);
+});
+
 gulp.task('default', function () {
-  gulp.run('webpack_client');
-  gulp.run('stylesheets');
-
-  gulp.watch([
-    './src/*.js',
-    './src/*/*.js',
-    './src/*/*/*.js',
-    './src/*/*/*/*.js',
-    './src/*/*/*/*/*.js',
-
-    './src/*.jsx',
-    './src/*/*.jsx',
-    './src/*/*/*.jsx',
-    './src/*/*/*/*.jsx',
-    './src/*/*/*/*/*.jsx'
-  ], ['webpack_client']);
-  gulp.watch([
-    './src/*.less',
-    './src/*/*.less',
-    './src/*/*/*.less',
-    './src/*/*/*/*.less',
-    './src/*/*/*/*/*.less'
-  ], ['stylesheets']);
+  if (yargs.s) {
+    gulp.start('server');
+  } else  {
+    gulp.start('stylesheets');
+    gulp.start('webpack_client');
+  }
 });
