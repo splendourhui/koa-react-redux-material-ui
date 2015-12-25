@@ -4,13 +4,13 @@ var concatCss = require('gulp-concat-css');
 var minifyCSS = require('gulp-minify-css');
 var gutil = require('gulp-util');
 var webpack = require('webpack');
-var config = require('./webpack.config');
+var webpackConfig = require('./webpack.config');
 var browserSync = require('browser-sync').create();
 var yargs = require('yargs').argv;
 var config = require('./config');
 
 gulp.task('webpack_client', function (cb) {
-  webpack(config, function(err, stats) {
+  webpack(webpackConfig, function(err, stats) {
     if(err) throw new gutil.PluginError("webpack", err);
     gutil.log("[webpack_client]", stats.toString());
     cb();
@@ -22,7 +22,7 @@ gulp.task('stylesheets', function () {
     './admin-src/**/*.less'
   ])
     .pipe(less().on('error', gutil.log))
-    .pipe(concatCss('admin.css'))
+    .pipe(concatCss('index.css'))
     .pipe(minifyCSS())
     .pipe(gulp.dest('./public/css'));
 });
