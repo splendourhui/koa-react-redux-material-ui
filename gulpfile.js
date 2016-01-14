@@ -19,7 +19,7 @@ gulp.task('webpack_client', function (cb) {
 
 gulp.task('stylesheets', function () {
   return gulp.src([
-    './admin-src/**/*.less'
+    './src/**/*.less'
   ])
     .pipe(less().on('error', gutil.log))
     .pipe(concatCss('index.css'))
@@ -43,11 +43,11 @@ gulp.task('js-watch', ['webpack_client'], function() {
 
 gulp.task('watch', function() {
   gulp.watch([
-    './admin-src/**/*.js',
-    './admin-src/**/*.jsx',
+    './src/**/*.js',
+    './src/**/*.jsx',
   ], ['js-watch']);
   gulp.watch([
-    './admin-src/**/*.less'
+    './src/**/*.less'
   ], ['less-watch']);
 });
 

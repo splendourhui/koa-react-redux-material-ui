@@ -12,10 +12,6 @@ const config = require('./config');
 
 let app = new koa();
 
-app.use(logRecord(app, {
-  logdir: path.join(__dirname, 'logs')
-}));
-
 /**
  * response time header
  */
@@ -38,25 +34,30 @@ app.use(middlewares.staticCache(path.join(__dirname, 'public')));
  * koa body parser, support file body
  */
 app.use(koaBody({
-  patchKoa: true,
-  formLimit: 10240,
-  multipart: true,
-  extendTypes: {
-    // will parse application/x-javascript type body as a JSON string
-    json: ['application/x-javascript'],
-    multipart: ['multipart/mixed']
-  }
+ patchKoa: true,
+ jsonLimit: '20mb',
+ formLimit: '20mb',
+ multipart: true,
+ extendTypes: {
+   // will parse application/x-javascript type body as a JSON string
+   json: ['application/x-javascript'],
+   multipart: ['multipart/mixed']
+ }
+}));
+
+app.use(logRecord(app, {
+  logdir: path.join(__dirname, 'logs'),
+  env: config.logEnv
 }));
 
 /**
- * log response time from router to response
+ * log username
  */
 app.use(function*(next) {
   let start = new Date;
   yield next;
   let ms = new Date - start;
-  this.logger.log(`${this.cookies.get('cici-username')} :`
-    + ` ${this.method} ${this.url} - ${ms}ms`);
+  this.logger.log(`{{#green}}username{{/green}}: ${this.cookies.get('admin-username')}`);
 });
 
 /**
