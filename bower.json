@@ -1,6 +1,0 @@
-{
-  "name": "cici-notice-server",
-  "dependencies": {
-    "jquery": "1.11.3"
-  }
-}

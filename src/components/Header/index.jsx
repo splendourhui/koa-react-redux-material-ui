@@ -1,5 +1,3 @@
-"use strict";
-
 import React from 'react';
 import {
   AppBar
@@ -12,9 +10,6 @@ class Header extends React.Component {
 
   componentDidMount() {
   }
-  handleLeftIconButtonTouchTap() {
-    this.props.toggleLeftNav();
-  }
 
   componentWillUnmount() {}
 
@@ -22,9 +17,9 @@ class Header extends React.Component {
     return (
       <div className="app-header">
         <AppBar
-          title={`Koa-react-redux-material-ui`}
-          onLeftIconButtonTouchTap={this.handleLeftIconButtonTouchTap.bind(this)}
-          />
+          title="Koa-react-redux-material-ui"
+          showMenuIconButton={false}
+        />
       </div>
     );
   }

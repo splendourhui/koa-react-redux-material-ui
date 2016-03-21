@@ -1,6 +1,6 @@
 {
-  "name": "cici-notice-server",
-  "version": "0.0.1",
+  "name": "koa-react-redux-material-ui",
+  "version": "0.0.2",
   "dependencies": {
     "superagent": "1.4.0",
     "lodash": "3.10.1",
@@ -24,7 +24,7 @@
     "normalizr": "1.4.0",
     "whatwg-fetch": "0.10.0",
     "supertest": "1.1.0",
-    "material-ui": "0.14.0-rc1",
+    "material-ui": "0.14.4",
     "moment": "2.10.6"
   },
   "devDependencies": {
