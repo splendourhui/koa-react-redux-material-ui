@@ -15,20 +15,13 @@ class App extends Component {
   }
 
   render() {
-    let content;
-    if (!this.props.children) {
-      //TODO
-    } else {
-      content = this.props.children;
-    }
-
     return (
       <div>
         <Header />
         <Paper id='content' zDepth={1} >
-          {content}
+          {this.props.children}
         </Paper>
-        <Spinner show={this.props.loading} />
+        <Spinner show={this.props.common.loading} />
       </div>
       );
   }
@@ -37,8 +30,7 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     query: state.router.location.query,
-    loading: state.loading,
-    messages: state.messages
+    common: state.common
   }
 }
 

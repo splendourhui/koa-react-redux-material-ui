@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 const Paper = require('material-ui/lib/paper');
 
-import { showLoading, showErrorMessage, jumpTo } from '../../actions/common';
+import * as commonActions from '../../actions/common';
 
 class NoticePage extends Component {
   constructor(props) {
@@ -17,8 +18,7 @@ class NoticePage extends Component {
     }, 3000);
   }
 
-  componentWillReceiveProps(nextProps) {
-  }
+  componentWillReceiveProps(nextProps) {}
 
   render() {
     return (
@@ -27,17 +27,18 @@ class NoticePage extends Component {
           <h1>Hello Index Page</h1>
         </div>
       </div>
-    );
+      );
   }
 }
 
 function mapStateToProps(state) {
   return {
+    common: state.common
   }
 }
 
-export default connect(mapStateToProps, {
-  jumpTo,
-  showLoading,
-  showErrorMessage
-})(NoticePage);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(commonActions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NoticePage);

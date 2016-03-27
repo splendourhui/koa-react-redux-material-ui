@@ -54,7 +54,7 @@ gulp.task('watch', function() {
 gulp.task('default', function () {
   if (yargs.s) {
     gulp.start('server');
-  } else  {
+  } else {
     gulp.start('stylesheets');
     gulp.start('webpack_client');
   }
